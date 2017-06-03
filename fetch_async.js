@@ -8,8 +8,9 @@ var xhr = new XMLHttpRequest();
 xhr.open("GET", "http://jsonplaceholder.typicode.com/users/1", true);
 xhr.onload = function (e) {
     if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log(xhr.responseText);
-        } 
+        var JsonData = eval ( "(" + xhr.responseText + ")" );
+        console.log(JsonData)
+    } 
     else {
         console.error(xhr.statusText);
     }
