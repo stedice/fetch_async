@@ -6,7 +6,7 @@
 
 function getRequest(url){
     return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
         xhr.onload = function (e) {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -23,15 +23,16 @@ function getRequest(url){
     });
 }
 
-const url1 = 'http://jsonplaceholder.typicode.com/users/1';
-const url2 = 'http://jsonplaceholder.typicode.com/posts?userId=1';
+let userId = 1;
+const url1 = 'http://jsonplaceholder.typicode.com/users/'+ userId;
+const url2 = 'http://jsonplaceholder.typicode.com/posts?userId='+ userId;
 
-var user = getRequest(url1);
-var comments = getRequest(url2);
+let user = getRequest(url1);
+let comments = getRequest(url2);
 
 Promise.all([user, comments])
 .then(data => { 
-    var JsonData = JSON.parse(data[0]);
+    let JsonData = JSON.parse(data[0]);
     JsonData.comments = JSON.parse(data[1]);
     console.log(JsonData);
 })
