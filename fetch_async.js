@@ -10,27 +10,31 @@ function getRequest(url){
         xhr.open("GET", url, true);
         xhr.onload = function (e) {
             if (xhr.readyState === 4 && xhr.status === 200) {
-//              var JsonData = JSON.parse(xhr.responseText);
-//              console.log(JsonData)
                 resolve(xhr.response);
             } 
             else {
-                //console.error(xhr.statusText);
                 reject(xhr.statusText);
             }
         };
         xhr.onerror = function (e) {
-            //console.error(xhr.statusText);
             reject(xhr.statusText);
         };
         xhr.send(null);
     });
 }
 
-getRequest('http://jsonplaceholder.typicode.com/users/1')
-.then(function (data) {
-    var JsonData = JSON.parse(data);
-    console.log(JsonData)})
-.catch(function (e) {
+const url1 = 'http://jsonplaceholder.typicode.com/users/1';
+const url2 = 'http://jsonplaceholder.typicode.com/posts?userId=1';
+
+var user = getRequest(url1);
+var comments = getRequest(url2);
+
+Promise.all([user, comments])
+.then(data => { 
+    var JsonData = JSON.parse(data[0]);
+    JsonData.comments = JSON.parse(data[1]);
+    console.log(JsonData);
+})
+.catch(e => {
     console.error('There was an error!', e);
 });
